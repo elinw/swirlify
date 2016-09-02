@@ -13,6 +13,13 @@ makelink <- function(item) {
   paste0(out, collapse="\n")
 }
 
+makeimage <- function(item) {
+  course_dir_path <- getOption("swirlify_course_dir_path")
+  lesson_dir_name <- getOption("swirlify_lesson_dir_name")
+  filepath <- paste(course_dir_path, lesson_dir_name, item, sep = '/')
+  out <- c("![](", filepath, ")")
+  paste0(out, collapse="")
+}
 
 #' @importFrom stringr str_split str_trim
 makemult <- function(item) {
@@ -25,7 +32,7 @@ makemult <- function(item) {
 makemd <- function(unit) UseMethod("makemd")
 
 makemd.default <- function(unit) {
-  stop("No unit class specified!", unit)
+  paste0("This type of question cannot currently be converted to html: ", unit)
 }
 
 makemd.text <- function(unit) {
@@ -66,6 +73,11 @@ makemd.video <- function(unit) {
 
 makemd.figure <- function(unit) {
   paste(unit[['Output']], "Image not displayed", 
+        sep="\n\n")
+}
+
+makemd.image <- function(unit) {
+  paste(unit[['Output']],makeimage(unit[['Image_path']]),
         sep="\n\n")
 }
 

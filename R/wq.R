@@ -282,3 +282,33 @@ wq_text <- function(output = "explain the question here",
       file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
+
+#' Template for image
+#' 
+#' The \code{image_path} provided for \code{image} can be a link to any image relative to the Swirl folder.
+#' 
+#' @param output Text that is displayed to the user.
+#' @param file_name A link to an image. Please make sure to use a location relative to the lesson including appropriate folder names and slashes.
+#' @importFrom whisker whisker.render
+#' @export
+#' @examples
+#' \dontrun{
+#' # While writing a new lesson by hand just use:
+#' wq_image()
+#' 
+#' # If converting from another format to a swirl course you may want to sue the
+#' # API:
+#' wq_image("Now look at my image.",
+#'  "myimage.jpg")
+#' }
+wq_image <- function(output = "explain the image here",
+                     image_path = ""){
+  lesson_file_check()
+  template <- "\n- Class: image
+  Output: {{{output}}}
+  Image_path: {{{image_path}}}\n"
+  cat(whisker.render(template, list(output = output, image_path = image_path)),
+      file=getOption("swirlify_lesson_file_path"), append=TRUE)
+  invisible()
+}
+
