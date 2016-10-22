@@ -163,6 +163,9 @@ lesson_to_html <- function(dest_dir = NULL, open_html = FALSE,
       '    theme: spacelab',
       '---\n',
       sep="\n", file=destrmd)
+ dependson <- (initpath <- file.path(dirname(lessonPath), "dependson.txt"))
+ dependencies<-readLines(dependson, warn=FALSE)
+ result <- lapply(dependencies, library, character.only = TRUE, quietly = TRUE, logical.return = FALSE)
   # Get initLesson.R info and write init chunk w/ no echo
   initpath <- file.path(dirname(lessonPath), "initLesson.R")
   # Get and write initialization code if initLesson.R exists
